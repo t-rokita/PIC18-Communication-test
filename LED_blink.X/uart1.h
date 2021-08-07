@@ -1,0 +1,10 @@
+#ifndef __MACL_UART1_H__
+#define __MACL_UART1_H__
+
+#define MCAL_PPSO_UART1_TX   (0b010011)
+#define MCAL_PPSO_UART1_TXDE (0b010100)
+#define MCAL_PPSO_UART1_nRTS (0b010101)
+#define MCAL_PPSI_UART1_RX   U1RXPPS
+#define MCAL_PPSI_UART1_CTS  U1CTSPPS
+
+#endif // __MACL_UART1_H__

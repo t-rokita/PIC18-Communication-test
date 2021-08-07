@@ -1,0 +1,142 @@
+Version 4.0 HI-TECH Software Intermediate Code
+"20 ./state_machine.h
+[; ;./state_machine.h: 20:     {
+[s S2 :1 `uc 1 :7 `uc 1 ]
+[n S2 . FRAME_READY . ]
+"16
+[; ;./state_machine.h: 16: {
+[s S1 `uc 1 `uc -> 2 `i `S2 1 ]
+[n S1 state ile buf . ]
+"3 state_machine.c
+[; ;state_machine.c: 3: void state_rx_byte(volatile struct state* st, char ch) {
+[v _state_rx_byte `(v ~T0 @X0 1 ef2`*VS1`uc ]
+{
+[e :U _state_rx_byte ]
+[v _st `*VS1 ~T0 @X0 1 r1 ]
+[v _ch `uc ~T0 @X0 1 r2 ]
+[f ]
+"4
+[; ;state_machine.c: 4:     if (st->FRAME_READY == 1)
+[e $ ! == -> . . *U _st 2 0 `i -> 1 `i 4  ]
+"5
+[; ;state_machine.c: 5:     {
+{
+"7
+[; ;state_machine.c: 7:     }
+}
+[e $U 5  ]
+"8
+[; ;state_machine.c: 8:     else if( ch == '%') {
+[e :U 4 ]
+[e $ ! == -> _ch `ui -> 37 `ui 6  ]
+{
+"9
+[; ;state_machine.c: 9:         st->ile = 1;
+[e = . *U _st 0 -> -> 1 `i `uc ]
+"10
+[; ;state_machine.c: 10:     }
+}
+[e $U 7  ]
+"11
+[; ;state_machine.c: 11:     else if (st->ile == 1 || st->ile == 2)
+[e :U 6 ]
+[e $ ! || == -> . *U _st 0 `i -> 1 `i == -> . *U _st 0 `i -> 2 `i 8  ]
+"12
+[; ;state_machine.c: 12:     {
+{
+"13
+[; ;state_machine.c: 13:         st->buf[st->ile - 1] = ch;
+[e = *U + &U . *U _st 1 * -> -> - -> . *U _st 0 `i -> 1 `i `ui `ux -> -> # *U &U . *U _st 1 `ui `ux _ch ]
+"14
+[; ;state_machine.c: 14:         st->ile++;
+[e ++ . *U _st 0 -> -> 1 `i `Vuc ]
+"15
+[; ;state_machine.c: 15:     }
+}
+[e $U 9  ]
+"16
+[; ;state_machine.c: 16:     else if (st->ile == 3) {
+[e :U 8 ]
+[e $ ! == -> . *U _st 0 `i -> 3 `i 10  ]
+{
+"17
+[; ;state_machine.c: 17:         if (ch == ' ')
+[e $ ! == -> _ch `ui -> 32 `ui 11  ]
+"18
+[; ;state_machine.c: 18:             st->FRAME_READY = 1;
+[e = . . *U _st 2 0 -> -> 1 `i `uc ]
+[e :U 11 ]
+"19
+[; ;state_machine.c: 19:         st->ile = 0;
+[e = . *U _st 0 -> -> 0 `i `uc ]
+"20
+[; ;state_machine.c: 20:     }
+}
+[e $U 12  ]
+"21
+[; ;state_machine.c: 21:     else
+[e :U 10 ]
+"22
+[; ;state_machine.c: 22:     {
+{
+"23
+[; ;state_machine.c: 23:         st->ile = 0;
+[e = . *U _st 0 -> -> 0 `i `uc ]
+"24
+[; ;state_machine.c: 24:     }
+}
+[e :U 12 ]
+[e :U 9 ]
+[e :U 7 ]
+[e :U 5 ]
+"25
+[; ;state_machine.c: 25: }
+[e :UE 3 ]
+}
+"27
+[; ;state_machine.c: 27: void state_reset(volatile struct state* st) {
+[v _state_reset `(v ~T0 @X0 1 ef1`*VS1 ]
+{
+[e :U _state_reset ]
+[v _st `*VS1 ~T0 @X0 1 r1 ]
+[f ]
+"28
+[; ;state_machine.c: 28:     st->ile = 0;
+[e = . *U _st 0 -> -> 0 `i `uc ]
+"29
+[; ;state_machine.c: 29:     st->FRAME_READY = 0;
+[e = . . *U _st 2 0 -> -> 0 `i `uc ]
+"31
+[; ;state_machine.c: 31:     for(int i = 0; i < 2; i++) {
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 2 `i 14  ]
+[e $U 15  ]
+[e :U 14 ]
+{
+"32
+[; ;state_machine.c: 32:         st->buf[i] = '\0';
+[e = *U + &U . *U _st 1 * -> -> _i `ui `ux -> -> # *U &U . *U _st 1 `ui `ux -> -> 0 `ui `uc ]
+"33
+[; ;state_machine.c: 33:     }
+}
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 2 `i 14  ]
+[e :U 15 ]
+}
+"34
+[; ;state_machine.c: 34: }
+[e :UE 13 ]
+}
+"35
+[; ;state_machine.c: 35: _Bool state_is_frame_ready(volatile struct state* st) { return st->FRAME_READY; }
+[v _state_is_frame_ready `(a ~T0 @X0 1 ef1`*VS1 ]
+{
+[e :U _state_is_frame_ready ]
+[v _st `*VS1 ~T0 @X0 1 r1 ]
+[f ]
+[e ) -> . . *U _st 2 0 `a ]
+[e $UE 17  ]
+[e :UE 17 ]
+}
